@@ -1,0 +1,23 @@
+.sideBar {
+    border:100% 2px solid black;
+}
+.searchResults {
+}
+.weatherInfo {
+    border: 2px solid black;
+    margin-left: 20px;
+    line-height: 4;
+}
+.forecast {
+    border: 2px solid black;
+}
+.col .row {
+    margin:0;
+}
+.card-title {
+    border-radius: 3px;
+    padding: 3px;
+}
+lead {
+    margin-left: 10px;
+}
