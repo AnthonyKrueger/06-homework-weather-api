@@ -31,7 +31,7 @@ function populateData(searchLat, searchLon) {
         var nameDateRow = $("<div>").addClass("row deep-orange lighten-4")
         var nameDateEl = $('<h4>').text(`${cityName} - ${nameDate}`).addClass('col s-10')
         var iconDiv = $('<div>').addClass('col s2')
-        var weatherIcon = $('<img>').attr("src", `http://openweathermap.org/img/wn/${iconCode}@2x.png`).addClass('responsive-img')
+        var weatherIcon = $('<img>').attr("src", `https://openweathermap.org/img/wn/${iconCode}@2x.png`).addClass('responsive-img')
         iconDiv.append(weatherIcon)
         nameDateRow.append(iconDiv)
         nameDateRow.append(nameDateEl)
@@ -94,7 +94,7 @@ function populateForecast(data) {
         var wind = data.daily[i].wind_speed
         var humidity = data.daily[i].humidity
         var weatherIconCode = data.daily[i].weather[0].icon
-        var weatherIcon = $('<img>').attr("src", `http://openweathermap.org/img/wn/${weatherIconCode}@2x.png`).addClass('responsive-img')
+        var weatherIcon = $('<img>').attr("src", `https://openweathermap.org/img/wn/${weatherIconCode}@2x.png`).addClass('responsive-img')
         var tempEl = $("<p>").text(`Temp: ${temp}° F`)
         var windEl = $("<p>").text(`Wind: ${wind}MPH`)
         var humidityEl = $("<p>").text(`Humidity: ${humidity}%`)
@@ -117,7 +117,7 @@ function populateForecast(data) {
 // Create function to convert search text to latitude longitude coordinates
 
 function convertCity() {
-    var searchUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${searchText}&limit=1&appid=40c43c9b382e01cc48d70ce7ed8b8c5a`
+    var searchUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${searchText}&limit=1&appid=40c43c9b382e01cc48d70ce7ed8b8c5a`
     $.ajax({
         url:searchUrl,
         method:"GET",
