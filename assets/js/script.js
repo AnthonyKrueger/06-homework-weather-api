@@ -5,6 +5,7 @@ var weatherInfoDiv = $(".weatherInfo")
 var forecastDiv = $(".forecast")
 var searchButton = $(".searchButton")
 var searchResults = $(".searchResults")
+var recentSearches = $('.recentSearches')
 
 // Global variable for search latitude and longitude
 
@@ -27,9 +28,9 @@ function populateData(searchLat, searchLon) {
 
         var nameDate = convertTime(timeCode)
         var iconCode = response.current.weather[0].icon
-        var nameDateRow = $("<div>").addClass("row")
+        var nameDateRow = $("<div>").addClass("row deep-orange lighten-4")
         var nameDateEl = $('<h4>').text(`${cityName} - ${nameDate}`).addClass('col s-10')
-        var iconDiv = $('<div>').addClass('col s-2')
+        var iconDiv = $('<div>').addClass('col s2')
         var weatherIcon = $('<img>').attr("src", `http://openweathermap.org/img/wn/${iconCode}@2x.png`).addClass('responsive-img')
         iconDiv.append(weatherIcon)
         nameDateRow.append(iconDiv)
@@ -37,7 +38,7 @@ function populateData(searchLat, searchLon) {
         weatherInfoDiv.append(nameDateRow)
 
         var tempDiv = $('<div>').addClass('row')
-        var temp = response.current.temp
+        var temp = Math.round(response.current.temp)
         var tempEl = $('<lead>').text(`Temp: ${temp}° F`)
         tempDiv.append(tempEl)
         weatherInfoDiv.append(tempDiv)
@@ -85,11 +86,11 @@ function populateData(searchLat, searchLon) {
 
 function populateForecast(data) {
     for(i = 1;i < 6;i++) {
+
         var dateCode = data.daily[i].dt
         var dateString = convertTime(dateCode)
-        console.log(dateString)
-        var title = $("<span>").addClass("card-title orange lighten-2").text(dateString)
-        var temp = data.daily[i].temp.day
+        var title = $("<span>").addClass("card-title blue lighten-3").text(dateString)
+        var temp = Math.round(data.daily[i].temp.day);
         var wind = data.daily[i].wind_speed
         var humidity = data.daily[i].humidity
         var weatherIconCode = data.daily[i].weather[0].icon
@@ -98,8 +99,9 @@ function populateForecast(data) {
         var windEl = $("<p>").text(`Wind: ${wind}MPH`)
         var humidityEl = $("<p>").text(`Humidity: ${humidity}%`)
         var contentDiv = $("<div>").addClass("card-content")
-        var containerDiv = $("<div>").addClass("col s-2")
-        var weatherCard = $("<div>").addClass("card blue lighten-2")
+        var containerDiv = $("<div>").addClass("col s12 m4 l2")
+        var weatherCard = $("<div>").addClass("card deep-orange lighten-4")
+
         contentDiv.append(title)
         contentDiv.append(weatherIcon)
         contentDiv.append(tempEl)
@@ -120,10 +122,29 @@ function convertCity() {
         url:searchUrl,
         method:"GET",
     }).then(function(response) {
-        var lat = response[0].lat
-        var lon = response[0].lon
-        cityName = response[0].name
-        populateData(lat, lon)
+        if(response[0] != undefined) {
+            var lat = response[0].lat
+            var lon = response[0].lon
+            cityName = response[0].name
+            populateData(lat, lon)
+            var recentSearches = JSON.parse(localStorage.getItem('recent'))
+            if(recentSearches != undefined) {
+                if(recentSearches.includes(searchText) == false) {
+                    addToRecentSearches();
+                    refreshRecentSearches();
+                }
+            }
+            else {
+                addToRecentSearches();
+                refreshRecentSearches();
+            }
+        }
+        else {
+            weatherInfoDiv.empty()
+            forecastDiv.empty()
+            var noResults = $('<h4>').addClass("col s12").text("Location Not Found!")
+            weatherInfoDiv.append(noResults);
+        }
         
     })
 }
@@ -140,6 +161,53 @@ function convertTime(timeCode) {
     return dateString;
 }
 
+// Function to add query to recent searches
+
+function addToRecentSearches() {
+    if(localStorage.getItem('recent') == null) {
+        localStorage.setItem('recent', [])
+        var recentSearches = []
+        recentSearches.push(searchText);
+        localStorage.setItem('recent', JSON.stringify(recentSearches))
+    } 
+    else {
+        var recentSearches = JSON.parse(localStorage.getItem('recent'))
+        if(recentSearches.length < 10){
+            recentSearches.push(searchText)
+            localStorage.setItem('recent', JSON.stringify(recentSearches))
+        }
+        else {
+            recentSearches.shift()
+            recentSearches.push(searchText)
+            localStorage.setItem('recent', JSON.stringify(recentSearches))
+        }
+    }
+}
+
+// Function to populate recent searches list
+
+function refreshRecentSearches() {
+    recentSearches.empty()
+
+    // var recentSearchesHeader = $('<li>').addClass('collection-header')
+    // var recentSearchesHeaderText = $('<h4>').text('Recent Searches')
+    // recentSearchesHeader.append(recentSearchesHeaderText)
+    // recentSearches.append(recentSearchesHeader)
+
+    var recents = JSON.parse(localStorage.getItem('recent'))
+    for(i = recents.length - 1;i > -1;i--) {
+        var recentItem = $('<li>').addClass('collection-item')
+        var recentItemText = $('<a>').addClass('btn waves-effect red lighten-1').text(recents[i])
+        recentItem.append(recentItemText)
+        recentSearches.append(recentItem);
+    }
+    $('.collection-item').on('click', function() {
+        searchText = $(this).text()
+        convertCity();
+    })
+
+}
+
 // Function to run on page initialization
 
 function init() {
@@ -147,5 +215,6 @@ function init() {
         searchText = searchInput.val()
         convertCity();
     })
+    refreshRecentSearches();
 }
 init()

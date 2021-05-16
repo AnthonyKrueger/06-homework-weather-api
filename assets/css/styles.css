@@ -1,15 +1,6 @@
-.sideBar {
-    border:100% 2px solid black;
-}
-.searchResults {
-}
 .weatherInfo {
-    border: 2px solid black;
     margin-left: 20px;
     line-height: 4;
-}
-.forecast {
-    border: 2px solid black;
 }
 .col .row {
     margin:0;
@@ -18,6 +9,36 @@
     border-radius: 3px;
     padding: 3px;
 }
+.searchResults {
+    margin-top: 10px;
+}
 lead {
     margin-left: 10px;
+}
+#sideBar > * {
+    margin: 10px;
+}
+#sideBar{
+    margin-left: 10px;
+}
+#searchButtonDiv {
+    margin-bottom: 10px;;
+    
+}
+#recentDiv {
+    display:block;
+}
+#searchResults {
+    margin-left: 1em;
+}
+#weatherInfo {
+    margin-top:10px;
+}
+#forecast {
+    margin-bottom:10px;
+}
+@media screen and (max-width: 600px){
+    #recentDiv {
+        display: none;
+    }
 }
