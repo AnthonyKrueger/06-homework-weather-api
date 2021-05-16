@@ -30,6 +30,6 @@
 
 ## Screenshots:
 
-![Alt text](assets\images\SC1.png?raw=true "Screenshot 1")
+![Screenshot1](./assets\images\SC1.png?raw=true "Screenshot 1")
 
-![Alt text](assets\images\SC2.png?raw=true "Screenshot 2")
+![Screenshot2](./assets\images\SC2.png?raw=true "Screenshot 2")
