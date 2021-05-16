@@ -2,17 +2,17 @@
 
 ## Description:
 
-    This application can be used to view the current weather of a given town or region.
+This application can be used to view the current weather of a given town or region.
 
-    Weather data for the current time is displayed as well as a five day forecast.
+Weather data for the current time is displayed as well as a five day forecast.
 
-    The UV index indicator will change colors depending on the severity of harmful UV rays.
+The UV index indicator will change colors depending on the severity of harmful UV rays.
 
-    Recent searches are saved to Local Storage and can be clicked to view the weather data of that
-    location again.
+Recent searches are saved to Local Storage and can be clicked to view the weather data of that
+location again.
     
-    If a search is invalid, you will receive a message notifying you and the search will not be added to
-    recent searches.
+If a search is invalid, you will receive a message notifying you and the search will not be added to
+recent searches.
 
 *Note: Only unique searches are saved. If the location already exists in recent searches, it will not be added again. A max of ten recent searches can be saved.*
 
